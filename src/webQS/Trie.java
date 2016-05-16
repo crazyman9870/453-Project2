@@ -40,7 +40,7 @@ public class Trie {
 	public String toString()
 	{
 		
-		for(int i = 0; i < 26; i++)
+		for(int i = 0; i < 27; i++)
 		{
 			Node temp = root;
 			//System.out.println("I = " + i);
@@ -78,7 +78,7 @@ public class Trie {
 	private String recToString(String word, Node temp)
 	{
 		StringBuilder answer = new StringBuilder("");
-		for(int i = 0; i < 26; i++)
+		for(int i = 0; i < 27; i++)
 		{
 			if(temp.getNodeAt(i) != null)
 			{
@@ -121,63 +121,7 @@ public class Trie {
 	}
 
 	public void add(String word) {
-		//System.out.println("Tree.add on "+nodeTracker+" is adding: "+word);
-		
-		
-		/**
-		if(curN == null)
-		{
-			curN = root;
-		}
-		
-		word = word.toLowerCase();
-		
-		if(word.length() > 0)
-		{
-			char c = word.charAt(0);
-			int pos = (c - 'a');
-			
-			//System.out.println("word = " + word);
-			
-			if(curN.getNodeAt(pos) == null)
-			{
-				MyNode n = new MyNode();
-				ncount++;
-				curN.setNodeAt(pos, n);
-				curN = n;
-				if(word.length() == 1)
-				{
-					word = "";
-				}
-				else
-				{
-					word = word.substring(1);
-				}
-					
-				add(word);
-			}
-			else if(curN.getNodeAt(pos) != null)
-			{
-				curN = curN.getNodeAt(pos);
-				if(word.length() == 1)
-				{
-					word = "";
-				}
-				else
-				{
-					word = word.substring(1);
-				}
-				add(word);
-			}
-		}
-		else
-		{
-			//System.out.println("current word frequency = " + curN.getValue());
-					
-		}
-		curN = null;
-		*/
-		
+		//System.out.println("Tree.add on "+nodeTracker+" is adding: "+word);		
 		curN = root;
 		word = word.toLowerCase();
 		
@@ -185,7 +129,11 @@ public class Trie {
 		{
 			char c = word.charAt(i);
 			int pos = (c-'a');
-						
+			
+			//This handles for spaces
+			if(pos < 0) {
+				pos = 26;
+			}
 			if(curN.getNodeAt(pos) == null)
 			{
 				Node n = new Node();
@@ -235,6 +183,10 @@ public class Trie {
 			output.append(c);
 			int pos = (c - 'a');
 			
+			//This handles for spaces
+			if(pos < 0) {
+				pos = 26;
+			}
 			//System.out.println("output word = " + output);
 			
 			if(curN.getNodeAt(pos) != null)
