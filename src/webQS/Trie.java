@@ -2,105 +2,7 @@ package webQS;
 
 public class Trie {
 	
-	@Override
-	public int hashCode() {
-		final int prime = 51;
-		int result = 1;
-		result = prime * result + ncount;
-		result = prime * result + wcount;
-		return result;
-	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (obj == null) {
-			return false;
-		}
-		if (getClass() != obj.getClass()) {
-			return false;
-		}
-		Trie other = (Trie) obj;
-		if (ncount != other.ncount) {
-			return false;
-		}
-		if (wcount != other.wcount) {
-			return false;
-		}
-		if (!this.toString().equals(other.toString()))
-		{
-			return false;
-		}
-		return true;
-	}
-	
-	@Override
-	public String toString()
-	{
-		
-		for(int i = 0; i < 27; i++)
-		{
-			Node temp = root;
-			//System.out.println("I = " + i);
-			if(temp.getNodeAt(i) != null)
-			{
-				
-				if(temp.getNodeAt(i).getValue() > 0)
-				{
-					//System.out.println("BEGINING TO ADD TO SB");
-					char c = 'a';
-					c += i;
-					sb.append(c);
-					sb.append(" ");
-					sb.append(temp.getNodeAt(i).getValue());
-					sb.append(System.getProperty("line.separator"));
-				}
-				char c = 'a';
-				c += i;
-				String word = new String();
-				word = Character.toString(c);
-				sb.append(recToString(word, temp.getNodeAt(i)));
-			}
-			//System.out.println(sb.toString());
-			
-		}
-		
-		System.out.println("\n\n=================================\n");
-		System.out.println(sb.toString());
-		String end = new String(sb.toString());
-		StringBuilder empty = new StringBuilder();
-		sb = empty;
-		return end;
-	}
-	
-	private String recToString(String word, Node temp)
-	{
-		StringBuilder answer = new StringBuilder("");
-		for(int i = 0; i < 27; i++)
-		{
-			if(temp.getNodeAt(i) != null)
-			{
-				if(temp.getNodeAt(i).getValue() > 0)
-				{
-					sb.append(word);
-					char c = 'a';
-					c += i;
-					sb.append(c);
-					sb.append(" ");
-					sb.append(temp.getNodeAt(i).getValue());
-					sb.append(System.getProperty("line.separator"));
-					//System.out.println(sb.toString());
-				}
-				StringBuilder sb2 = new StringBuilder(word);
-				sb2.append(Character.toString((char)(i + 'a')));
-				answer.append(recToString(sb2.toString(), temp.getNodeAt(i)));
-			}
-		}
-		return answer.toString();
-		//System.out.println("ENDING RECURSIVE\n" + sb.toString());
-	}
 	
 	private Node root;
 	private int wcount;
@@ -213,22 +115,119 @@ public class Trie {
 	}
 
 	public int getWordCount() {
-		// TODO Auto-generated method stub
 		return wcount;
 	}
 
 	public int getNodeCount() {
-		// TODO Auto-generated method stub
 		return ncount;
-		
+	}	
+	//=================================================================	
+
 	//=================================================================
-		
-
 	
-
-		
-		
+	@Override
+	public int hashCode() {
+		final int prime = 51;
+		int result = 1;
+		result = prime * result + ncount;
+		result = prime * result + wcount;
+		return result;
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		Trie other = (Trie) obj;
+		if (ncount != other.ncount) {
+			return false;
+		}
+		if (wcount != other.wcount) {
+			return false;
+		}
+		if (!this.toString().equals(other.toString()))
+		{
+			return false;
+		}
+		return true;
+	}
+	
+	@Override
+	public String toString()
+	{
+		
+		for(int i = 0; i < 27; i++)
+		{
+			Node temp = root;
+			//System.out.println("I = " + i);
+			if(temp.getNodeAt(i) != null)
+			{
+				
+				if(temp.getNodeAt(i).getValue() > 0)
+				{
+					//System.out.println("BEGINING TO ADD TO SB");
+					char c = 'a';
+					c += i;
+					sb.append(c);
+					sb.append(" ");
+					sb.append(temp.getNodeAt(i).getValue());
+					sb.append(System.getProperty("line.separator"));
+				}
+				char c = 'a';
+				c += i;
+				String word = new String();
+				word = Character.toString(c);
+				sb.append(recToString(word, temp.getNodeAt(i)));
+			}
+			//System.out.println(sb.toString());
+			
+		}
+		
+		System.out.println("\n\n=================================\n");
+//		System.out.println(sb.toString());
+		String end = new String(sb.toString());
+		StringBuilder empty = new StringBuilder();
+		sb = empty;
+		return end;
+	}
+	
+	private String recToString(String word, Node temp)
+	{
+		StringBuilder answer = new StringBuilder("");
+		for(int i = 0; i < 27; i++)
+		{
+			if(temp.getNodeAt(i) != null)
+			{
+				if(temp.getNodeAt(i).getValue() > 0)
+				{
+					sb.append(word);
+					char c = 'a';
+					c += i;
+					sb.append(c);
+					sb.append(" ");
+					sb.append(temp.getNodeAt(i).getValue());
+					sb.append(System.getProperty("line.separator"));
+					//System.out.println(sb.toString());
+				}
+				StringBuilder sb2 = new StringBuilder(word);
+				if(i < 26)
+					sb2.append(Character.toString((char)(i + 'a')));
+				else
+					sb2.append(" ");
+				answer.append(recToString(sb2.toString(), temp.getNodeAt(i)));
+			}
+		}
+		return answer.toString();
+		//System.out.println("ENDING RECURSIVE\n" + sb.toString());
+	}
+	
 	//=================================================================
 	
 	public class Node {
