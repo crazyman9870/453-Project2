@@ -8,13 +8,17 @@ import java.io.IOException;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+
 public class TrieLoader {
 		
 	public TrieLoader() {
 	}
 	
 	public void loadTrie(Trie trie) {
-		File path = new File("logs");
+		File path = new File("resources\\logs");
+		DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
 		for(File file : path.listFiles()) {
 			try {
 				BufferedReader buffReader = new BufferedReader(new FileReader(file));
@@ -22,7 +26,7 @@ public class TrieLoader {
 				String nextLine = "";
 				while ((nextLine = buffReader.readLine()) != null) {
 					StringTokenizer tokens = new StringTokenizer(nextLine);
-					System.out.println(tokens.countTokens());
+//					System.out.println(tokens.countTokens());
 				}
 				buffReader.close();
 				//save it to a bin tree.
@@ -32,6 +36,7 @@ public class TrieLoader {
 				System.out.println("Error thrown when loading the trie");
 				e.printStackTrace();
 			}
+//			System.out.println("DONE WITH FILE");
 		}
 	}
 
