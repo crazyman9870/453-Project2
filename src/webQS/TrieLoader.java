@@ -19,7 +19,7 @@ public class TrieLoader {
 		stopWords = new StopWords();
 	}
 	
-	public void loadTrie(Trie trie) {
+	public Trie loadTrie(Trie trie) {
 		File path = new File("resources\\logs");
 		DateTimeFormatter dateFormatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
 
@@ -53,7 +53,7 @@ public class TrieLoader {
 					}
 
 					//TODO Implement later
-//					trie.add(query, modified);
+					trie.add(query, modified);
 					prevSession = session;
 					prevQuery = query;
 					prevTime = time;
@@ -66,6 +66,7 @@ public class TrieLoader {
 			}
 //			System.out.println("DONE WITH FILE");
 		}
+		return trie;
 	}
 	
 	private String formatQuery(String query) {

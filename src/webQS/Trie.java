@@ -49,19 +49,59 @@ public class Trie {
 			}
 		}
 		//System.out.println("frequency1 = " + curN.getValue());
-		if(curN.getValue() < 1)
+		if(curN.getFrequency() < 1)
 		{
 			wcount++;
 		}
-		curN.fplus();
-
+		curN.fPlus();
+		//System.out.println("frequency2 = " + curN.getValue());
+		//System.out.println("word = " + word);
+		
+		//System.out.println("word count = " + wcount);
+		//System.out.println("node count = " + ncount);
+	}
+	
+	public void add(String query, boolean modfied) {
+		//System.out.println("Tree.add on "+nodeTracker+" is adding: "+word);		
+		curN = root;
+		query = query.toLowerCase();
+		
+		for(int i = 0; i < query.length(); i++)
+		{
+			char c = query.charAt(i);
+			int pos = (c-'a');
+			
+			//This handles for spaces
+			if(pos < 0) {
+				pos = 26;
+			}
+			if(curN.getNodeAt(pos) == null)
+			{
+				Node n = new Node();
+				ncount++;
+				curN.setNodeAt(pos, n);
+				curN = n;
+			}
+			else
+			{
+				curN = curN.getNodeAt(pos);
+			}
+		}
+		//System.out.println("frequency1 = " + curN.getValue());
+		if(curN.getFrequency() < 1)
+		{
+			wcount++;
+		}
+		curN.fPlus();
+		if(modfied)
+			curN.mCountPlus();
+		
 		
 		//System.out.println("frequency2 = " + curN.getValue());
 		//System.out.println("word = " + word);
 		
 		//System.out.println("word count = " + wcount);
 		//System.out.println("node count = " + ncount);
-		
 	}
 
 	/**
@@ -102,7 +142,7 @@ public class Trie {
 			
 		}
 		
-		if(curN.getValue() > 0)
+		if(curN.getFrequency() > 0)
 		{
 			//System.out.println("word frequency = " + curN.getValue());
 			Node n = curN;
@@ -170,14 +210,14 @@ public class Trie {
 			if(temp.getNodeAt(i) != null)
 			{
 				
-				if(temp.getNodeAt(i).getValue() > 0)
+				if(temp.getNodeAt(i).getFrequency() > 0)
 				{
 					//System.out.println("BEGINING TO ADD TO SB");
 					char c = 'a';
 					c += i;
 					sb.append(c);
 					sb.append(" ");
-					sb.append(temp.getNodeAt(i).getValue());
+					sb.append(temp.getNodeAt(i).getFrequency());
 					sb.append(System.getProperty("line.separator"));
 				}
 				char c = 'a';
@@ -205,14 +245,14 @@ public class Trie {
 		{
 			if(temp.getNodeAt(i) != null)
 			{
-				if(temp.getNodeAt(i).getValue() > 0)
+				if(temp.getNodeAt(i).getFrequency() > 0)
 				{
 					sb.append(word);
 					char c = 'a';
 					c += i;
 					sb.append(c);
 					sb.append(" ");
-					sb.append(temp.getNodeAt(i).getValue());
+					sb.append(temp.getNodeAt(i).getFrequency());
 					sb.append(System.getProperty("line.separator"));
 					//System.out.println(sb.toString());
 				}
@@ -233,31 +273,37 @@ public class Trie {
 	public class Node {
 
 		private int frequency;
+		private int modCount;
 		protected Node[] narray;
 		
 		public Node() {
 			narray  = new Node[27];
 			frequency = 0;
+			modCount = 0;
 		}
 		
-		public int getValue() {
-			
+		public int getFrequency() {
 			return frequency;
 		}
 		
-		public Node getNodeAt(int pos)
-		{
+		public int getModCount() {
+			return modCount;
+		}
+		
+		public Node getNodeAt(int pos) {
 			return narray[pos];
 		}
 		
-		public void setNodeAt(int pos, Node n)
-		{
+		public void setNodeAt(int pos, Node n) {
 			narray[pos] = n;
 		}
 		
-		public void fplus()
-		{
+		public void fPlus()	{
 			frequency++;
+		}
+		
+		public void mCountPlus() {
+			modCount++;
 		}
 		
 		
