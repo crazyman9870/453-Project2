@@ -40,20 +40,20 @@ public class TrieLoader {
 					String query = lineSections[1];
 					String timeStr = lineSections[2];
 					
-//					if(query.contains("\'"))
-//						System.out.println(query);
 					query = formatQuery(query);
-//					System.out.println(query);
+					if(query.equals(""))
+						continue;
 					
 					DateTime time = dateFormatter.parseDateTime(timeStr);
-					modified= false;
+					modified = false;
 					if (prevSession.equals(session)) {
 						if (prevTime.plusMinutes(10).isBefore(time)) {
-//							isMod = checkQuery(queryStr);
+							modified = modifiedQuery(query, prevQuery);
 						}
 					}
 
-//					trie.add(queryStr, isMod);
+					//TODO Implement later
+//					trie.add(query, modified);
 					prevSession = session;
 					prevQuery = query;
 					prevTime = time;
@@ -71,17 +71,23 @@ public class TrieLoader {
 	private String formatQuery(String query) {
 		StringTokenizer tokens = new StringTokenizer(query);
 		StringBuilder sb = new StringBuilder();
+		
 		if(!tokens.hasMoreTokens()) //empty check
 			return "";
+		
 		String word = tokens.nextToken();
 		word = removeApostrophe(word);
+		
 		if(!stopWords.contains(word))
 			sb.append(word);
+		
 		while(tokens.hasMoreTokens()) {
 			word = tokens.nextToken();
 			word = removeApostrophe(word);
+			
 			if(sb.length() != 0)
 				sb.append(" ");
+			
 			sb.append(word);
 		}
 		return sb.toString();
@@ -91,6 +97,34 @@ public class TrieLoader {
 		if(word.contains("\'"))
 			return word.substring(0, word.length()-2);
 		return word;
+	}
+	
+	private boolean modifiedQuery(String query, String prevQuery) {
+		
+		//If the queries are the same length or query is shorter return false
+		if(query.length() == prevQuery.length() || query.length() < prevQuery.length())
+			return false;
+		
+		StringTokenizer queryTokens = new StringTokenizer(query);
+		StringTokenizer prevTokens = new StringTokenizer(prevQuery);
+		String word1 = "";
+		String word2 = "";
+		
+		//Run through previous query to make sure all the words are the same
+		while(prevTokens.hasMoreTokens()) {
+			word1 = queryTokens.nextToken();
+			word2 = prevTokens.nextToken();
+			if(!word1.equals(word2)) {
+				return false;
+			}
+		}
+		
+		//If all the words are the same and the new query still has more tokens it's modified otherwise false
+		if(queryTokens.hasMoreTokens()) {
+			return true;
+		}
+		
+		return false;
 	}
 }
 
