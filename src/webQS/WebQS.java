@@ -9,5 +9,7 @@ public class WebQS {
 
 		System.out.println(trie.toString());
 		
+		/* Preferences->Installed JREs->Edit->Variables = -Xmx4096m -XX:MaxPermSize=4096m */
+		
 	}
 }

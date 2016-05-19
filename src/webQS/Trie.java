@@ -216,8 +216,10 @@ public class Trie {
 					char c = 'a';
 					c += i;
 					sb.append(c);
-					sb.append(" ");
+					sb.append(" freq = ");
 					sb.append(temp.getNodeAt(i).getFrequency());
+					sb.append(" mod = ");
+					sb.append(temp.getNodeAt(i).getModCount());
 					sb.append(System.getProperty("line.separator"));
 				}
 				char c = 'a';
@@ -251,8 +253,10 @@ public class Trie {
 					char c = 'a';
 					c += i;
 					sb.append(c);
-					sb.append(" ");
+					sb.append(" freq = ");
 					sb.append(temp.getNodeAt(i).getFrequency());
+					sb.append(" mod = ");
+					sb.append(temp.getNodeAt(i).getModCount());
 					sb.append(System.getProperty("line.separator"));
 					//System.out.println(sb.toString());
 				}
